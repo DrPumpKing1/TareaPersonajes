@@ -119,9 +119,21 @@ namespace TareaSemana3.Adventure_System
             for(int i = 0;i < enemies.Length; i++)
             {
                 reward += enemies[i].Loot;
+                List<Item> enemyInventory = enemies[i].GetInventory();
+                for(int j = 0; j < enemyInventory.Count; j++)
+                {
+                    StoryTeller.instance.player.ReceiveItem(enemyInventory[j], 1);
+                }
             }
 
             StoryTeller.instance.player.GiveMoney(reward);
+        }
+
+        public override Chapter? GetNextChapter()
+        {
+            if (win) return null; 
+
+            return base.GetNextChapter();
         }
     }
 }

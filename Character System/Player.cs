@@ -48,12 +48,12 @@ namespace TareaSemana3.Character_System
             StoryTeller.instance?.PlayerDeath();
         }
 
-        public void SetArmor(Armor armor)
+        public void SetArmor(Armor? armor)
         {
             this.armor = armor;
         }
 
-        public void SetWeapon(Weapon weapon)
+        public void SetWeapon(Weapon? weapon)
         {
             this.weapon = weapon;
         }
@@ -67,7 +67,27 @@ namespace TareaSemana3.Character_System
         public void SpendMoney(int cost)
         {
             money = Math.Max(money - cost, 0);
-            Console.WriteLine($"{StoryTeller.instance.player.Name} spennt {cost} dracmas");
+            Console.WriteLine($"{StoryTeller.instance.player.Name} spent {cost} dracmas");
+        }
+
+        public void AddStats(int stregthAmount, int dexterityAmount)
+        {
+            strength = Math.Max(strength + stregthAmount, 0);
+            dexterity = Math.Max(dexterity + dexterityAmount, 0);
+        }
+
+        public void ReceiveItem(Item item, int amount)
+        {
+            Console.WriteLine($"{characterName} received {item.tags[item.tags.Count - 1]} item {item.name} x{amount}");
+            for (int i = 0; i < amount; i++)
+            {
+                inventory.Add(item.Clone());
+            }
+        }
+
+        public void RemoveItem(Item item)
+        {
+            inventory.Remove(item);
         }
     }
 }

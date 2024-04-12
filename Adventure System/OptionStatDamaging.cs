@@ -21,5 +21,14 @@ namespace TareaSemana3.Adventure_System
             Console.WriteLine($"{StoryTeller.instance.player.Name}'s been damaged");
             StoryTeller.instance.player.Life(-damage);
         }
+
+        public override Chapter? GetNextChapter()
+        {
+            Chapter? nextChapter = base.GetNextChapter();
+
+            if (!StoryTeller.instance.player.IsAlive()) return null;
+
+            return nextChapter;
+        }
     }
 }

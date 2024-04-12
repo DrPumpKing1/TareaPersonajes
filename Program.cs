@@ -17,16 +17,42 @@ Player player = controller.SetPlayer(KnightSword, KnightChestplate);
 string death_text = "Every adventure has to end... Somehow unlucky.";
 Chapter deathChapter = new Chapter(new string[] { death_text }, null);
 
+string ignore_homeless_text = $"{player.Name}: Sorry, I'm in a Hurry";
+Option ignore_homeless = new Option(new string[] { ignore_homeless_text }, null);
+
+string help_homeless_text = $"{player.Name}: Here! Take this";
+OptionGiveItem help_homeless = new OptionGiveItem(new string[] { help_homeless_text }, null, "Bread");
+
+string homeless_text = $"A homeless man stops {player.Name} as he runs an asks him for food.";
+Selection homeless_selection = new Selection(new string[] { homeless_text }, new Option[] { ignore_homeless, help_homeless });
+
+string eat_2_bread_text = "Eat all bread";
+OptionEatFromInventory option_eat_2_bread = new OptionEatFromInventory(new string[] { eat_2_bread_text }, homeless_selection, "Bread", 2);
+
+string eat_1_bread_text = "Eat 1 bread";
+OptionEatFromInventory option_eat_1_bread = new OptionEatFromInventory(new string[] { eat_1_bread_text }, homeless_selection, "Bread", 1);
+
+string no_eat_text = $"Hunger can wait, {player.Name} has a mission to achieve";
+Option no_eat = new Option(new string[] { no_eat_text }, homeless_selection);
+
+string eat_bread_text = $"The breads she has given, seems delicious. What will the knight do?";
+Selection eat_bread = new Selection(new string[] {eat_bread_text}, new Option[] {option_eat_2_bread, option_eat_1_bread, no_eat});
+
+Food Bread = new Food("Bread", 10);
+int bread_amount = 2;
+string mother_give_bread_text = $"The mother thanks Termidor's hero and gives him {Bread.name} x{bread_amount}";
+ChapterReceiveItem mother_give_bread = new ChapterReceiveItem(new string[] { mother_give_bread_text }, eat_bread, Bread, bread_amount);
+
 Enemy banditOliver = new Enemy(10, 3, "Oliver", 15, 20, null, null, new List<Item>());
 Enemy banditJames = new Enemy(15, 0, "James", 10, 15, null, null, new List<Item>());
 
 string engage_bandits_text = $"{player.Name} engages fight with the bandits";
-Fight engage_bandits = new Fight(new Enemy[] { banditOliver, banditJames }, new string[] { engage_bandits_text }, null);
+Fight engage_bandits = new Fight(new Enemy[] { banditOliver, banditJames }, new string[] { engage_bandits_text }, mother_give_bread);
 
 string fight_bandits_text = "Fight those criminals";
 Option fight_bandits = new Option(new string[] {fight_bandits_text}, engage_bandits);
 string ignore_mother_text = "Ignore them, he've to reach the palace before the enemy";
-Option ignore_mother = new Option(new string[] {ignore_mother_text}, null);
+Option ignore_mother = new Option(new string[] {ignore_mother_text}, homeless_selection);
 
 string enter_city_text = $"{player.Name} enter through the city's big gate sign of victory now crumbling into ashes.";
 string mother_and_child = $"{player.Name} sees a mother and her child being harrased by bandits. What will he do?";

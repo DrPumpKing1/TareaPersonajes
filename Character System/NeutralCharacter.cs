@@ -54,5 +54,35 @@ namespace TareaSemana3
         {
             return armor;
         }
+
+        public List<Item> GetInventory()
+        {
+            return inventory;
+        }
+
+        public List<Item> GetInventory(List<string> filterTags)
+        {
+            return inventory.FindAll(item => {
+                bool valid = true;
+                filterTags.ForEach(itemTag =>
+                {
+                    valid &= item.tags.Contains(itemTag);
+                });
+                return valid;
+            });
+        }
+
+        public List<Item> GetInventory(List<string> filterTags, string name)
+        {
+            return inventory.FindAll(item => {
+                bool valid = true;
+                filterTags.ForEach(itemTag =>
+                {
+                    valid &= item.tags.Contains(itemTag);
+                });
+                valid &= item.name == name;
+                return valid;
+            });
+        }
     }
 }

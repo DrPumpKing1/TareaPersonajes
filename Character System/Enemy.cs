@@ -12,7 +12,7 @@ namespace TareaSemana3.Character_System
         private int mitigation;
         private int lootMoney;
 
-        public int Damage { get { return damage; } }
+        public int BaseDamage { get { return damage; } }
         public int Mitigation { get { return mitigation; } }
         public int Loot {  get { return lootMoney; } }
 

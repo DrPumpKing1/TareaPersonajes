@@ -17,6 +17,11 @@ namespace TareaSemana3.Item_System
             this.strengthMulipliter = stregthMultiplier;
         }
 
+        public override Chestplate Clone()
+        {
+            return new Chestplate(this.name, this.baseMitigation, this.strengthMulipliter);
+        }
+
         public override int GetArmorMitigation(int strength)
         {
             int scaling = (int)Math.Floor((float)strength * strengthMulipliter);

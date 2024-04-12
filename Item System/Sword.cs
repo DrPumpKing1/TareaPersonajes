@@ -19,6 +19,11 @@ namespace TareaSemana3.Item_System
             this.dexterityMultiplier = dexterityMultiplier;
         }
 
+        public override Sword Clone()
+        {
+            return new Sword(this.name, this.baseAttack, this.strengthMulipliter, this.dexterityMultiplier);
+        }
+
         public override int GetWeaponDamage(int strength, int dexterity)
         {
             int strengthScaling = (int) Math.Floor((float)strength * strengthMulipliter);
