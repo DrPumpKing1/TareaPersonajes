@@ -98,7 +98,7 @@ namespace TareaSemana3.Adventure_System
                 if (enemies[i].IsAlive())
                 {
                     enemies[i].Damage(StoryTeller.instance.player);
-                    Console.WriteLine($"{enemies[i].Name} attacked {StoryTeller.instance.player.Name}, leaving him in {StoryTeller.instance.player.Name} health points.");
+                    Console.WriteLine($"{enemies[i].Name} attacked {StoryTeller.instance.player.Name}, leaving him in {StoryTeller.instance.player.Health} health points.");
                 }
             }
 
