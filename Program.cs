@@ -14,14 +14,45 @@ Character Breeze = new Character("Breeze", 1);
 Player player = controller.SetPlayer(KnightSword, KnightChestplate);
 
 // STORY WRITTEN FROM END TO FINISH
+string end = "END";
+Chapter end_chapter = new Chapter(new string[] { end }, null);
+
 string death_text = "Every adventure has to end... Somehow unlucky.";
-Chapter deathChapter = new Chapter(new string[] { death_text }, null);
+Chapter deathChapter = new Chapter(new string[] { death_text }, end_chapter);
+
+string escape_breeze_text = "Breeze comes into the palace and rescues our hero";
+Chapter escape_breeze = new Chapter(new string[] { escape_breeze_text }, end_chapter);
+
+string win_fight = $"{player.Name} won the fight, but the king is dead, the palace is falling apart, and the knight is too injured to escape.";
+ChapterConditionIsAlive won_final_fight = new ChapterConditionIsAlive(new string[] { win_fight }, escape_breeze, end_chapter, Breeze);
+
+string reach_palace = $"{player.Name} has arrived at the ruined palace, he sees no sign of anyone. Smoke and ashes prevent his visibility.";
+string king_dragon = $"He enters the throne room to see the wounded king behind a horrendous wyvern-like beast straight out of hell.";
+KeyItem Crown = new KeyItem("King's Crown");
+Enemy Wyvern = new Enemy(10, 0, "Infernal Wyvern", 10, 50, null, null, new List<Item> { Crown });
+Fight final_fight = new Fight(new Enemy[] { Wyvern }, new string[] { reach_palace, king_dragon }, won_final_fight);
+
+string not_drink_text = $"{player.Name}: Seems like someone I must mistrust.";
+Option not_drink = new Option(new string[] { not_drink_text }, final_fight);
+
+string drink_potion_option_text = $"{player.Name}: Better take advantage of any help I can receive.";
+OptionDrinkPotionFromInventory drink_option = new OptionDrinkPotionFromInventory(new string[] { drink_potion_option_text }, final_fight, "Suspicious Potion");
+
+string drink_potion_text = "The beggar and dissapears and the knight wonders about the potion. What will he do?";
+Selection drink_selection = new Selection(new string[] { drink_potion_text }, new Option[] { not_drink, drink_option });
+
+Potion mysterious_potion = new Potion("Suspicious Potion", 20, 15);
+string receive_potion_text = $"The beggar grabs {player.Name} clothes stopping him. The poor man hands the hero something...";
+ChapterReceiveItem receive_potion = new ChapterReceiveItem(new string[] { receive_potion_text }, drink_selection, mysterious_potion, 1);
+
+string curse_text = "The hero gets trap in a black myst and hears a voice calling: \"You've forgotten your mission\". A curse weakens his strength and dexterity.";
+ChapterAffectStats curse_chapter = new ChapterAffectStats(new string[] { curse_text }, final_fight, -10, -10);
 
 string ignore_homeless_text = $"{player.Name}: Sorry, I'm in a Hurry";
-Option ignore_homeless = new Option(new string[] { ignore_homeless_text }, null);
+Option ignore_homeless = new Option(new string[] { ignore_homeless_text }, curse_chapter);
 
 string help_homeless_text = $"{player.Name}: Here! Take this";
-OptionGiveItem help_homeless = new OptionGiveItem(new string[] { help_homeless_text }, null, "Bread");
+OptionGiveItem help_homeless = new OptionGiveItem(new string[] { help_homeless_text }, receive_potion, "Bread");
 
 string homeless_text = $"A homeless man stops {player.Name} as he runs an asks him for food.";
 Selection homeless_selection = new Selection(new string[] { homeless_text }, new Option[] { ignore_homeless, help_homeless });

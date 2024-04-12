@@ -131,7 +131,7 @@ namespace TareaSemana3.Adventure_System
 
         public override Chapter? GetNextChapter()
         {
-            if (win) return null; 
+            if (!win) return null; 
 
             return base.GetNextChapter();
         }
